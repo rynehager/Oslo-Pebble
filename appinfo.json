@@ -1,0 +1,38 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "New Plan Industries LLC",
+    "enableMultiJS": true,
+    "longName": "003 First Watchface",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/WeatherFont",
+                "name": "FONT_WEATHER_48",
+                "targetPlatforms": null,
+                "type": "font"
+            },
+            {
+                "file": "fonts/font",
+                "name": "FONTDICKBALLS_64",
+                "targetPlatforms": [
+                    "basalt"
+                ],
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "003 First Watchface",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "6789e231-e009-4cd7-896e-5cfbeca8f13d",
+    "versionLabel": "0.1",
+    "watchapp": {
+        "watchface": false
+    }
+}
