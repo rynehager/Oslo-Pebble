@@ -153,10 +153,6 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 
 static void handle_accel_tap(AccelAxisType axis, int32_t direction)
 {
-   if ((debug_flag == 0) && (splash_timer == 0))
-   {
-      show_blockp = true;
-   }
 }  // handle_accel_tap()
 
 static void handle_init(void){
