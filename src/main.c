@@ -47,9 +47,9 @@ static void main_window_unload(Window *window);
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed);
 
 //gesture support
-//static void handle_accel_tap(AccelAxisType axis, int32_t direction);
-//static void handle_deinit(void);
-//static void handle_init(void);
+static void tap_handler(AccelAxisType axis, int32_t direction);
+static void handle_deinit(void);
+static void handle_init(void);
 
 //every second add one second for all seconds this second, per second.
 static void update_time();
@@ -69,6 +69,8 @@ int main(void) {
 
 //INITIALIZE
 static void init() {
+  //register tap handler
+  accel_tap_service_subscribe(tap_handler);
   //make the main window
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   s_main_window = window_create();
@@ -128,7 +130,7 @@ static void main_window_load(Window *window) {
   s_version_layer = text_layer_create(GRect(0, PBL_IF_ROUND_ELSE(58, 0), bounds.size.w, 35));
   text_layer_set_background_color(s_version_layer, GColorBlack);
   text_layer_set_text_color(s_version_layer, GColorWhite);
-  text_layer_set_text(s_version_layer, "breep");
+  text_layer_set_text(s_version_layer, "Unknown");
   text_layer_set_font(s_version_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
   text_layer_set_text_alignment(s_version_layer, GTextAlignmentCenter);
   text_layer_set_overflow_mode(s_version_layer, GTextOverflowModeWordWrap);
@@ -175,17 +177,28 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
 }
 
-//static void handle_accel_tap(AccelAxisType axis, int32_t direction)
-//{
-//}  // handle_accel_tap()
-
-//static void handle_init(void){
+static void tap_handler(AccelAxisType axis, int32_t direction) {
+  switch (axis) {
+    case ACCEL_AXIS_Y:
+    if (direction > 0) {
+      text_layer_set_text(s_version_layer, "Positive");
+    } else {
+      text_layer_set_text(s_version_layer, "Negative");
+    }
+    break;
+    case ACCEL_AXIS_X:
+    break;
+    case ACCEL_AXIS_Z:
+    break;
+  }
+}
+static void handle_init(void){
   
-//}
+}
 
-//static void handle_deinit(void){
+static void handle_deinit(void){
   
-//}
+}
 
 
 
