@@ -32,6 +32,9 @@ static TextLayer *s_time_layer;
 //Date
 static TextLayer *s_date_layer;
 
+//Version
+static TextLayer *s_version_layer;
+
 //PROTOTYPE LOADS
 
 //Load main window
@@ -44,9 +47,9 @@ static void main_window_unload(Window *window);
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed);
 
 //gesture support
-static void handle_accel_tap(AccelAxisType axis, int32_t direction);
-static void handle_deinit(void);
-static void handle_init(void);
+//static void handle_accel_tap(AccelAxisType axis, int32_t direction);
+//static void handle_deinit(void);
+//static void handle_init(void);
 
 //every second add one second for all seconds this second, per second.
 static void update_time();
@@ -120,11 +123,26 @@ static void main_window_load(Window *window) {
   
   //add date layer as child
   layer_add_child(window_layer, text_layer_get_layer(s_date_layer));
+  
+  //VERSION TEXT
+  s_version_layer = text_layer_create(GRect(0, PBL_IF_ROUND_ELSE(58, 0), bounds.size.w, 35));
+  text_layer_set_background_color(s_version_layer, GColorBlack);
+  text_layer_set_text_color(s_version_layer, GColorWhite);
+  text_layer_set_text(s_version_layer, "breep");
+  text_layer_set_font(s_version_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
+  text_layer_set_text_alignment(s_version_layer, GTextAlignmentCenter);
+  text_layer_set_overflow_mode(s_version_layer, GTextOverflowModeWordWrap);
+  //Add version layer as child
+  layer_add_child(window_layer, text_layer_get_layer(s_version_layer));
 }
 
 static void main_window_unload(Window *window) {
-  // Destroy the TextLayer A001
+  // Destroy the timelayer
   text_layer_destroy(s_time_layer);
+  // Destroy date layer
+  text_layer_destroy(s_date_layer);
+  // Destroy the Version layer
+  text_layer_destroy(s_version_layer);
 }
 
 static void update_time() {
@@ -134,13 +152,19 @@ static void update_time() {
   
   //write the current hours and minutes to a buffer
   static char s_time_buffer[8];
-  strftime(s_time_buffer, sizeof(s_time_buffer), clock_is_24h_style() ?
-          "%H:%M" : "%I:%M", tick_time);
   
-  //Display this time on the Text Layer
-  text_layer_set_text(s_time_layer, s_time_buffer);
+  //24 hour/12 hour selection logic and remove leading 0 for 12 hour
   
-  //TRIM THIS VALUE LATER
+  if(clock_is_24h_style() == true) {
+    // Use 24 hour format
+    strftime(s_time_buffer, sizeof(s_time_buffer), "%H:%M", tick_time);
+    text_layer_set_text(s_time_layer,s_time_buffer); 
+  } else {
+    // Use 12 hour format
+    strftime(s_time_buffer, sizeof(s_time_buffer), "%I:%M", tick_time);
+    text_layer_set_text(s_time_layer,s_time_buffer+(('0' == s_time_buffer[0])?1:0)); 
+  }
+  
   static char s_date_buffer[30];
   strftime(s_date_buffer, sizeof(s_date_buffer),
           "%A, %B %e", tick_time);
@@ -151,17 +175,17 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
 }
 
-static void handle_accel_tap(AccelAxisType axis, int32_t direction)
-{
-}  // handle_accel_tap()
+//static void handle_accel_tap(AccelAxisType axis, int32_t direction)
+//{
+//}  // handle_accel_tap()
 
-static void handle_init(void){
+//static void handle_init(void){
   
-}
+//}
 
-static void handle_deinit(void){
+//static void handle_deinit(void){
   
-}
+//}
 
 
 
