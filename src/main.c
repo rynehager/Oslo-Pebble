@@ -26,6 +26,9 @@
 //define base window
 static Window *s_main_window;
 
+//define weather window
+static Window *s_weather_window;
+
 //Time
 static TextLayer *s_time_layer;
 
@@ -35,6 +38,8 @@ static TextLayer *s_date_layer;
 //Version
 static TextLayer *s_version_layer;
 
+
+
 //PROTOTYPE LOADS
 
 //Load main window
@@ -43,6 +48,12 @@ static void main_window_load(Window *window);
 //kill main window
 static void main_window_unload(Window *window);
 
+//Load weather window
+static void weather_window_load(Window *window);
+
+//Kill weather window
+static void weather_window_unload(Window *window);
+
 //Update time
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed);
 
@@ -50,6 +61,10 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed);
 static void tap_handler(AccelAxisType axis, int32_t direction);
 static void handle_deinit(void);
 static void handle_init(void);
+
+//Weather panel
+static void weather_panel();
+
 
 //every second add one second for all seconds this second, per second.
 static void update_time();
@@ -181,9 +196,9 @@ static void tap_handler(AccelAxisType axis, int32_t direction) {
   switch (axis) {
     case ACCEL_AXIS_Y:
     if (direction > 0) {
-      text_layer_set_text(s_version_layer, "Positive");
+      weather_window_load();
     } else {
-      text_layer_set_text(s_version_layer, "Negative");
+      weather_window_load();
     }
     break;
     case ACCEL_AXIS_X:
@@ -191,6 +206,15 @@ static void tap_handler(AccelAxisType axis, int32_t direction) {
     case ACCEL_AXIS_Z:
     break;
   }
+}
+
+static void weather_window_load(Window *window){
+  
+}
+
+static void weather_window_unload() {
+  //destroy the main window
+  window_destroy(s_weather_window);
 }
 static void handle_init(void){
   
