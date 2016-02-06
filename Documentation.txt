@@ -1,1 +1,7 @@
 
+
+Gesture detection handled by function tap_handler()
+
+drawing of all layers handled by main_window_load()
+
+12/24 hour logic inefficient but functional (if/else statement in function update_time())
