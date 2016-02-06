@@ -1,2 +1,2 @@
-# R003_weather_on_gesture
-A simple watchface that (eventually) uses aliased fonts in plain design, shake for weather.
+# Oslo
+Work in progress. A simply styled watch face, initially only targeting Basalt. Plain, simple, functional design. Makes use of bitmaps to display aliased numerals, proper wake gesture shows weather. 
